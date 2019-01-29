@@ -1,0 +1,10 @@
+<resources>
+    <string name="app_name">Week 3</string>
+    <string name="txtLat">Latitude:</string>
+    <string name="txtLon">Longitude:</string>
+    <string name="choosemap">Choose Map</string>
+    <string name="regularview">Regular View</string>
+    <string name="hikebikemapview">Hike/Bike View</string>
+    <string name="selectmap">Select Map</string>
+    <string name="setloc">Select Location</string>
+</resources>
