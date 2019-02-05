@@ -36,13 +36,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     @Override
     public void onStart() { // Runs when the activity come into view of the user
-
-        // TODO Make the preference persistance between destroyed states
-
         super.onStart();
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
 
-        double lat = Double.parseDouble(prefs.getString("lat", "50.9"));
+        double lat = Double.parseDouble(prefs.getString("lat", "50.9078"));
         double lon = Double.parseDouble(prefs.getString("lon", "-1.4"));
         int zoom = Integer.parseInt(prefs.getString("zoom","16"));
         String mapStyle = prefs.getString("mapStyle","NONE");
