@@ -1,0 +1,16 @@
+<resources>
+    <string name="app_name">Week 5</string>
+    <string name="txtLat">Latitude:</string>
+    <string name="txtLon">Longitude:</string>
+    <string name="choosemap">Choose Map</string>
+    <string name="regularview">Regular View</string>
+    <string name="hikebikemapview">Hike/Bike View</string>
+    <string name="selectmap">Select Map</string>
+    <string name="setloc">Select Location</string>
+    <string name="prefs">Preferences</string>
+    <string name="regularView">Regular View</string>
+    <string name="hikeBikeView">Hike/Bike View</string>
+    <string name="lstTitleMapStyle">Map Style</string>#
+    <string name="lstTitleMapStyleSum">Choose the style of map.</string>
+    <string name="egListActivity">Example List Activity</string>
+</resources>
