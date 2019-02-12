@@ -35,8 +35,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     }
 
     @Override
-    public void onStart() { // Runs when the activity come into view of the user
-        super.onStart();
+    public void onResume() { // Runs when the activity come into view of the user {Needed to be renamed from "onStart" to "onResume" for some reason}
+        super.onResume();
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
 
         double lat = Double.parseDouble(prefs.getString("lat", "50.9078"));
@@ -81,7 +81,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             return true;
         }else if(item.getItemId() == R.id.egListActivity){
             intent = new Intent(this, ExampleListActivity.class);
-            startActivity(intent);
+            startActivityForResult(intent,0); // uses requestCode 0 because the code written to handle it is pretty much doesn't need to be changed
             return true;
         }
         return false;

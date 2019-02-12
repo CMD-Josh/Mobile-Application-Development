@@ -2,7 +2,9 @@ package uk.ac.solent.week3;
 
 import android.app.ListActivity;
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
@@ -18,8 +20,8 @@ public class ExampleListActivity extends ListActivity
     {
         super.onCreate(savedInstanceState);
 
-        names = new String[]{"The Crown","The Cowherds", "The Two Brothers", "Piccolo Mondo"};
-        details = new String[] { "pub, 2.5 miles north", "pub, 1.5 miles north", "pub, 3.5 miles northeast" , "Italian restaurant, 0.5 miles west" };
+        names = new String[]{"Regular","Hike/Bike"};
+        details = new String[] { "Standard map view", "Highlights hiking and biking routes"};
 
         MyAdapter adapter = new MyAdapter();
         setListAdapter(adapter);
@@ -28,6 +30,23 @@ public class ExampleListActivity extends ListActivity
     public void onListItemClick(ListView lv, View view, int index, long id)
     {
         // handle list item selection
+
+        Intent intent = new Intent();
+        Bundle bundle = new Bundle();
+
+        if(index == 1){
+            bundle.putBoolean("uk.ac.solent.hikebikemap", true);
+
+            intent.putExtras(bundle);
+            setResult(RESULT_OK, intent);
+            finish();
+        }else if(index == 0){
+            bundle.putBoolean("uk.ac.solent.hikebikemap", false);
+
+            intent.putExtras(bundle);
+            setResult(RESULT_OK, intent);
+            finish();
+        }
     }
 
     public class MyAdapter extends ArrayAdapter<String>{
@@ -36,10 +55,14 @@ public class ExampleListActivity extends ListActivity
         }
 
         public View getView(int index, View convertView, ViewGroup parent){
-            LayoutInflater inflater = (LayoutInflater)getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-            View view = inflater.inflate(R.layout.poientry, parent, false);
-            TextView title = (TextView)view.findViewById(R.id.poi_name),
-            detail = (TextView)view.findViewById(R.id.poi_desc);
+
+            View view = convertView;
+            if(view==null){
+                LayoutInflater inflater = (LayoutInflater)getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+                view = inflater.inflate(R.layout.poientry, parent, false);
+            }
+            TextView title = (TextView)view.findViewById(R.id.poi_name);
+            TextView detail = (TextView)view.findViewById(R.id.poi_desc);
             title.setText(names[index]);
             detail.setText(details[index]);
             return view;
