@@ -19,6 +19,7 @@ import org.osmdroid.views.MapView;
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
 
     private MapView mv;
+    private String lastActivity; // Used to store the last activity the user was on. also used to stop the preferences from taking changes when the user goes back to the map activity
 
     @Override
     protected void onCreate(Bundle savedInstanceState) { // Runs when the activity has been initialized but not visible yet
@@ -46,13 +47,15 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         mv.getController().setCenter(new GeoPoint(lat,lon));
         mv.getController().setZoom(zoom);
-        if(mapStyle != null){
+        if(mapStyle != null && lastActivity == null){
             if(mapStyle.equals("HBV")){
                 mv.setTileSource(TileSourceFactory.HIKEBIKEMAP);
             }else{
                 mv.setTileSource(TileSourceFactory.MAPNIK);
             }
         }
+
+        lastActivity = null;
     }
 
     public boolean onCreateOptionsMenu(Menu menu) // Used to instantiate the options menu
@@ -92,6 +95,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             if(resultCode==RESULT_OK){
                 Bundle extras = intent.getExtras();
                 boolean hikebikemap = extras.getBoolean("uk.ac.solent.hikebikemap");
+
+                lastActivity = extras.getString("uk.ac.solent.lastActivity");
+
                 if(hikebikemap == true){
                     mv.setTileSource(TileSourceFactory.HIKEBIKEMAP);
                 }else{

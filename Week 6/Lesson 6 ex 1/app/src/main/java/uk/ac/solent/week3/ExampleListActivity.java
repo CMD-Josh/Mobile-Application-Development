@@ -3,7 +3,9 @@ package uk.ac.solent.week3;
 import android.app.ListActivity;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.ViewGroup;
@@ -11,6 +13,8 @@ import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.view.View;
 import android.widget.TextView;
+
+import java.util.prefs.Preferences;
 
 public class ExampleListActivity extends ListActivity
 {
@@ -36,17 +40,15 @@ public class ExampleListActivity extends ListActivity
 
         if(index == 1){
             bundle.putBoolean("uk.ac.solent.hikebikemap", true);
-
-            intent.putExtras(bundle);
-            setResult(RESULT_OK, intent);
-            finish();
         }else if(index == 0){
             bundle.putBoolean("uk.ac.solent.hikebikemap", false);
-
-            intent.putExtras(bundle);
-            setResult(RESULT_OK, intent);
-            finish();
         }
+
+        bundle.putString("uk.ac.solent.lastActivity", "ExampleListActivity");
+
+        intent.putExtras(bundle);
+        setResult(RESULT_OK, intent);
+        finish();
     }
 
     public class MyAdapter extends ArrayAdapter<String>{
