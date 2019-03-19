@@ -10,6 +10,7 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Toast;
 
 import org.osmdroid.config.Configuration;
 import org.osmdroid.tileprovider.tilesource.TileSourceFactory;
@@ -32,6 +33,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private MapView mv;
     private String lastActivity; // Used to store the last activity the user was on. also used to stop the preferences from taking changes when the user goes back to the map activity
     private ItemizedIconOverlay<OverlayItem> items;
+    private ItemizedIconOverlay.OnItemGestureListener<OverlayItem> markerListener;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) { // Runs when the activity has been initialized but not visible yet
@@ -49,12 +51,23 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         mv.setBuiltInZoomControls(true);
         mv.setClickable(true);
 
-        items = new ItemizedIconOverlay<OverlayItem>(this, new ArrayList<OverlayItem>(), null);
-        OverlayItem home = new OverlayItem("Home", "The only place to be.", new GeoPoint(50.9396,-1.3391));
+        //Creation of marker listener to do something when the marker is pressed
+        markerListener = new ItemizedIconOverlay.OnItemGestureListener<OverlayItem>(){
+            @Override
+            public boolean onItemSingleTapUp(int index, OverlayItem item) {
+                Toast.makeText(MainActivity.this,item.getTitle() + " :\n" + item.getSnippet(),Toast.LENGTH_LONG).show();
+                return true;
+            }
 
-        items.addItem(home);
+            public boolean onItemLongPress(int i, OverlayItem item){
+                Toast.makeText(MainActivity.this,item.getSnippet(),Toast.LENGTH_LONG).show();
+                return true;
+            }
+        };
 
-        mv.getOverlays().add(items);
+        items = new ItemizedIconOverlay<OverlayItem>(this, new ArrayList<OverlayItem>(), markerListener);
+        insertOverlayItem("Home", "The only place to be.", new GeoPoint(50.9396,-1.3391));
+
         ExerciseAsyncTask task = new ExerciseAsyncTask();
         task.execute();
     }
@@ -141,6 +154,14 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     }
 
+    private void insertOverlayItem(String name, String desc, GeoPoint location){
+        OverlayItem marker = new OverlayItem(name, desc, location);
+
+        items.addItem(marker);
+
+        mv.getOverlays().add(items);
+    }
+
     /* -----------------------------------------------------------------------------------------------------------------------------
 
             Inner class defining an AsyncTask (If defiend as its own seperate class than it wouldn't need to be parsed
@@ -185,7 +206,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         @Override
         public void onPostExecute(ArrayList<String> result){
             for(int i = 0; i < result.size(); i++){
-                System.out.println(result.get(i)); // TODO seperate CSV into individual components and add to marker overlay
+                String[] components;
+                components = result.get(i).split(",");
+                insertOverlayItem(components[0],components[1] + " " + components[2], new GeoPoint(Double.valueOf(components[4]), Double.valueOf(components[3])));
             }
         }
     }
