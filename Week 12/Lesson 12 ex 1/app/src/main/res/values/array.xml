@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="mapView">
+        <item>Regular view</item>
+        <item>Hike/Bike view</item>
+    </string-array>
+    <string-array name="mapViewCodes">
+        <item>RV</item>
+        <item>HBV</item>
+    </string-array>
+</resources>
